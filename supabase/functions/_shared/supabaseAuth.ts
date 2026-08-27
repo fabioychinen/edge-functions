@@ -1,9 +1,8 @@
-// deno-lint-ignore-file no-explicit-any
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { err } from './cors.ts'
-import { requireHttpsUrl } from './env.ts'
+import { requireEnv, requireHttpsUrl } from './env.ts'
 
-export type Deps = { createClient: (...args: any[]) => any }
+export type Deps = { createClient: typeof createClient }
 export const defaultDeps: Deps = { createClient }
 
 export type AuthenticatedRequest = {
@@ -18,7 +17,7 @@ export async function authenticate(req: Request, deps: Deps): Promise<Authentica
 
   const client = deps.createClient(
     requireHttpsUrl('SUPABASE_URL'),
-    Deno.env.get('SUPABASE_ANON_KEY')!,
+    requireEnv('SUPABASE_ANON_KEY'),
     { global: { headers: { Authorization: authHeader } } },
   )
 

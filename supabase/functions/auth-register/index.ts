@@ -1,5 +1,5 @@
 import { ok, err, preflight } from '../_shared/cors.ts'
-import { requireHttpsUrl } from '../_shared/env.ts'
+import { requireEnv, requireHttpsUrl } from '../_shared/env.ts'
 import { defaultDeps, type Deps } from '../_shared/supabaseAuth.ts'
 
 export async function handler(req: Request, deps: Deps = defaultDeps): Promise<Response> {
@@ -16,7 +16,7 @@ export async function handler(req: Request, deps: Deps = defaultDeps): Promise<R
 
   const admin = deps.createClient(
     requireHttpsUrl('SUPABASE_URL'),
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
+    requireEnv('SUPABASE_SERVICE_ROLE_KEY'),
     { auth: { autoRefreshToken: false, persistSession: false } },
   )
 

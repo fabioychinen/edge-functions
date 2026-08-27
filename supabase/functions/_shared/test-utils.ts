@@ -1,5 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 Deno.env.set('SUPABASE_URL', 'https://localhost.test')
+Deno.env.set('SUPABASE_ANON_KEY', 'test-anon-key')
+Deno.env.set('SUPABASE_SERVICE_ROLE_KEY', 'test-service-role-key')
 
 type Result = { data?: unknown; error?: unknown }
 type TableConfig = {

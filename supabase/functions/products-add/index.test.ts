@@ -36,6 +36,11 @@ Deno.test('token inválido retorna 401', async () => {
   assertEquals(res.status, 401)
 })
 
+Deno.test('sem name retorna 400', async () => {
+  const res = await handler(jsonReq({ quantity: 5 }), { createClient: () => createMockClient(withUser) })
+  assertEquals(res.status, 400)
+})
+
 Deno.test('empresa não encontrada retorna 404', async () => {
   const res = await handler(
     jsonReq({ name: 'Produto' }),

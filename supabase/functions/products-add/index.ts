@@ -8,7 +8,8 @@ export async function handler(req: Request, deps: Deps = defaultDeps): Promise<R
   if (auth instanceof Response) return auth
   const { client, userId, email } = auth
 
-  const body = await req.json() as Record<string, unknown>
+  const body = await req.json() as { name?: string } & Record<string, unknown>
+  if (!body.name) return err('name é obrigatório')
 
   const companyId = await getCompanyId(client, userId)
   if (!companyId) return err('Empresa não encontrada', 404)
